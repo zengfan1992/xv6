@@ -154,6 +154,7 @@ fs/forktest: uobj/forktest.o $(ULIB)
 	$(OBJDUMP) -S fs/forktest > out/forktest.asm
 
 out/mkfs: tools/mkfs.c include/fs.h
+	@mkdir -p out
 	gcc -Werror -Wall -o out/mkfs tools/mkfs.c
 
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
@@ -221,11 +222,11 @@ qemu-nox: fs.img xv6.img
 .gdbinit: tools/gdbinit.tmpl
 	sed "s/localhost:1234/localhost:$(GDBPORT)/" < $^ > $@
 
-qemu-gdb: fs.img xv6.img .gdbinit
+qemu-gdb: fs.img xv6.img
 	@echo "*** Now run 'gdb'." 1>&2
 	$(QEMU) -serial mon:stdio $(QEMUOPTS) -S -s
 
-qemu-nox-gdb: fs.img xv6.img .gdbinit
+qemu-nox-gdb: fs.img xv6.img
 	@echo "*** Now run 'gdb'." 1>&2
 	$(QEMU) -nographic $(QEMUOPTS) -S -s
 
