@@ -11,3 +11,4 @@ mkfs
 .gdbinit
 out
 fs
+bx_enh_dbg.ini
